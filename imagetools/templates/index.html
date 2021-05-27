@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Super resolution</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+    <h2>Upload Low resolution Image</h2>
     <form method = "post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
