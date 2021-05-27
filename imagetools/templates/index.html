@@ -1,13 +1,14 @@
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
-    <meta charset="UTF-8">  
-    <title>Index</title>  
-    {% load static %}  
-    <link rel="stylesheet" href="{% static 'css/style.css' %}"/> 
-</head>  
-<body>  
-<h2>Welcome to Django!!!</h2>
-<h1>Lets begin the Project</h1>
-</body>  
-</html>  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Super resolution</title>
+</head>
+<body>
+    <form method = "post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+</body>
+</html>
