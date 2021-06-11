@@ -5,13 +5,26 @@
     <title>Super resolution</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/jquery-1.12.4.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.js' %}"></script>
 </head>
 <body>
-    <h2>Upload Low resolution Image</h2>
+    <!-- <h2>Upload Low resolution Image</h2>
     <form method = "post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Upload</button>
-    </form>
+    </form> -->
+      <div id="contour">
+      </div>
+      <img id="img_copy" alt="No Image" />
+      <img id="img_element" width="1060" height="500" alt="No Image" />
+      <p id="original_width"></p>
+      <canvas id="myCanvas" width="150" height="150" ></canvas>
+      <p id="original_height"></p>
+    <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
+    <button onclick="function1()">Download</button>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script async src="{% static 'js/opencv.js' %}" type="text/javascript"></script>
 </body>
 </html>

@@ -1,3 +1,26 @@
 h2{
 	color: #2400FF;
 }
+#img_copy{
+  display: none;
+}
+#contour{
+  border: 3px solid #ffff00;
+  position: absolute;
+  display: none;
+  cursor: all-scroll;
+}
+#original_width, img, #myCanvas{
+  display: none;
+  vertical-align: middle;
+}
+#original_width{
+  transform: rotate(90deg);
+}
+#original_height{
+  width: 1060px;
+}
+#original_height,#original_width{
+  /*margin: 0;*/
+  text-align: center;
+}
