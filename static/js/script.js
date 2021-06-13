@@ -1,6 +1,6 @@
 let imgElement = document.getElementById('img_copy');
 let inputElement = document.getElementById('fileInput');
-
+var x_cor, ycor;
 var img = document.querySelector('#img_element');
 var owi = document.getElementById('original_width');
 var ohi = document.getElementById('original_height');
@@ -22,6 +22,8 @@ var contour_element = document.getElementById('contour');
 contour_element.ondrag = function(){
   //console.log("moved");
   var output = $("#contour").position();
+  x_cor = (output.top - 8)*(img.naturalHeight/img.height)
+  y_cor = (output.left - 8)*(img.naturalWidth/img.width)
   // document.getElementById('outputposition').innerHTML = String((output.top - 8)*(img.naturalHeight/500)) + " , " + String((output.left - 8)*(img.naturalWidth/1000));
   let src = cv.imread(imgElement);
   // console.log('image width: ' + src.cols + '\n' +
@@ -55,31 +57,65 @@ inputElement.addEventListener('change', (e) => {
 // function onOpenCvReady() {
 //   document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
 // }
-function function1(){
-  download(myCanvas,'cropped.jpeg');
+// function function1(){
+//   download(myCanvas,'cropped.jpeg');
+// }
+
+// function download(canvas, filename) {
+//   /// create an "off-screen" anchor tag
+//   var lnk = document.createElement('a'), e;
+
+//   /// the key here is to set the download attribute of the a tag
+//   lnk.download = filename;
+
+//   /// convert canvas content to data-uri for link. When download
+//   /// attribute is set the content pointed to by link will be
+//   /// pushed as "download" in HTML5 capable browsers
+//   lnk.href = canvas.toDataURL("image/jpeg;base64");
+
+//   /// create a "fake" click-event to trigger the download
+//   if (document.createEvent) {
+//     e = document.createEvent("MouseEvents");
+//     e.initMouseEvent("click", true, true, window,
+//                      0, 0, 0, 0, 0, false, false, false,
+//                      false, 0, null);
+
+//     lnk.dispatchEvent(e);
+//   } else if (lnk.fireEvent) {
+//     lnk.fireEvent("onclick");
+//   }
+// }
+
+// JavaScript function to get cookie by name; retrieved from https://docs.djangoproject.com/en/3.1/ref/csrf/
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+          }
+      }
+  }
+  return cookieValue;
 }
 
-function download(canvas, filename) {
-  /// create an "off-screen" anchor tag
-  var lnk = document.createElement('a'), e;
-
-  /// the key here is to set the download attribute of the a tag
-  lnk.download = filename;
-
-  /// convert canvas content to data-uri for link. When download
-  /// attribute is set the content pointed to by link will be
-  /// pushed as "download" in HTML5 capable browsers
-  lnk.href = canvas.toDataURL("image/jpeg;base64");
-
-  /// create a "fake" click-event to trigger the download
-  if (document.createEvent) {
-    e = document.createEvent("MouseEvents");
-    e.initMouseEvent("click", true, true, window,
-                     0, 0, 0, 0, 0, false, false, false,
-                     false, 0, null);
-
-    lnk.dispatchEvent(e);
-  } else if (lnk.fireEvent) {
-    lnk.fireEvent("onclick");
-  }
+function function1(){
+  var formData = new FormData();  
+  formData.append('image',$('#fileInput')[0].files[0])
+  formData.append('data',JSON.stringify({'x': x_cor,'y': y_cor}))
+  $.ajax({
+    type: 'POST',
+    url: 'cropped_image',
+    enctype: 'multipart/form-data',
+    cache: false,
+    processData: false,
+    contentType: false,
+    headers: { "X-CSRFToken": getCookie('csrftoken')},
+    //data: {'data': JSON.stringify({'x': x_cor,'y': y_cor})},
+    data: formData,
+  });
 }

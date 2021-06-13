@@ -6,6 +6,7 @@ from django.conf.urls.static import static
   
 urlpatterns = [    
     path('index/', views.low_resolution_submit),
+    path('index/cropped_image', views.cropped_image),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
