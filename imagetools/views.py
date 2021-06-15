@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.core import serializers
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import *
@@ -38,12 +39,19 @@ def cropped_image(request):
         sr = dnn_superres.DnnSuperResImpl_create()
         sr.readModel(path)
         sr.setModel("edsr", 4)
+        start_time = time.time()
         superresolution_img = sr.upsample(lowresolution_img)
         cv2.imwrite("./media/images/superresolution/upscaled.jpg", superresolution_img)
         form2 = superresolution(super_resolution_Img = 'images/superresolution/upscaled.jpg')
         form2.save()
+        instance = serializers.serialize('json', superresolution.objects.all(),fields=('super_resolution_Img'))
+        end_time = time.time()
+        time_taken = end_time - start_time
+        originalresolution.objects.all().delete()
+        lowresolution.objects.all().delete()
+        superresolution.objects.all().delete()
         # print(data_cordinates)
         # print(request.POST.get('cordinates_x'),request.POST.get('cordinates_y'))
         # print(int(data_cordinates['x']),int(data_cordinates['y']))
         # print(cropped_image.shape)
-        return JsonResponse({"status":True})
+        return JsonResponse({"time_taken":time_taken,"instance": instance})

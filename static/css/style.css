@@ -1,8 +1,15 @@
 h2{
 	color: #2400FF;
 }
-#img_copy{
+#img_copy,#result_img,#compare_img,#downloadfile,#downloadcrop{
   display: none;
+}
+#compare_img{
+  filter: blur(2px);
+}
+#compare_img,#result_img{
+  margin: 10px;
+  border: 5px solid; darkturquoise;
 }
 #contour{
   border: 3px solid #ffff00;

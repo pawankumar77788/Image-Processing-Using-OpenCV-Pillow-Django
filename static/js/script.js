@@ -57,34 +57,47 @@ inputElement.addEventListener('change', (e) => {
 // function onOpenCvReady() {
 //   document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
 // }
-// function function1(){
-//   download(myCanvas,'cropped.jpeg');
-// }
+function function2(){
+  $('#result_img').css("display","none");
+  $('#compare_img').css("display","none");
+  document.getElementById("result_img").width = "600";
+  document.getElementById("result_img").height = "600";
+  var downloadimage_file = document.getElementById('result_img');
+  var canvas2 = document.getElementById('downloadfile');
+  var ctx2 = canvas2.getContext('2d');
+  canvas2.width = downloadimage_file.width;
+  canvas2.height = downloadimage_file.height;
+  ctx2.drawImage(downloadimage_file,0,0);
 
-// function download(canvas, filename) {
-//   /// create an "off-screen" anchor tag
-//   var lnk = document.createElement('a'), e;
+  download(canvas2,'cropped.jpeg');
+  var buttondownload = document.getElementById('downloadcrop');
+  buttondownload.scrollIntoView({behavior: "smooth"})
+}
 
-//   /// the key here is to set the download attribute of the a tag
-//   lnk.download = filename;
+function download(canvas, filename) {
+  /// create an "off-screen" anchor tag
+  var lnk = document.createElement('a'), e;
 
-//   /// convert canvas content to data-uri for link. When download
-//   /// attribute is set the content pointed to by link will be
-//   /// pushed as "download" in HTML5 capable browsers
-//   lnk.href = canvas.toDataURL("image/jpeg;base64");
+  /// the key here is to set the download attribute of the a tag
+  lnk.download = filename;
 
-//   /// create a "fake" click-event to trigger the download
-//   if (document.createEvent) {
-//     e = document.createEvent("MouseEvents");
-//     e.initMouseEvent("click", true, true, window,
-//                      0, 0, 0, 0, 0, false, false, false,
-//                      false, 0, null);
+  /// convert canvas content to data-uri for link. When download
+  /// attribute is set the content pointed to by link will be
+  /// pushed as "download" in HTML5 capable browsers
+  lnk.href = canvas.toDataURL("image/jpeg;base64");
 
-//     lnk.dispatchEvent(e);
-//   } else if (lnk.fireEvent) {
-//     lnk.fireEvent("onclick");
-//   }
-// }
+  /// create a "fake" click-event to trigger the download
+  if (document.createEvent) {
+    e = document.createEvent("MouseEvents");
+    e.initMouseEvent("click", true, true, window,
+                     0, 0, 0, 0, 0, false, false, false,
+                     false, 0, null);
+
+    lnk.dispatchEvent(e);
+  } else if (lnk.fireEvent) {
+    lnk.fireEvent("onclick");
+  }
+}
 
 // JavaScript function to get cookie by name; retrieved from https://docs.djangoproject.com/en/3.1/ref/csrf/
 function getCookie(name) {
@@ -117,5 +130,23 @@ function function1(){
     headers: { "X-CSRFToken": getCookie('csrftoken')},
     //data: {'data': JSON.stringify({'x': x_cor,'y': y_cor})},
     data: formData,
+    beforeSend:function(){
+      // Show image container
+      $("#ajax_status").text("Processing - Approx 30 Sec to render ...");
+      var complete = document.getElementById('ajax_status');
+      complete.scrollIntoView({behavior: "smooth"})
+    },
+    complete:function(data){
+      // Hide image container
+      $("#ajax_status").text("Successfully rendered in "+String(data.responseJSON["time_taken"])+" Seconds.");
+      var instance = JSON.parse(data.responseJSON["instance"]);
+      $('#result_img').attr("src","http://127.0.0.1:8000/media/"+instance[0].fields.super_resolution_Img);
+      $('#result_img').css("display","inline-block");
+      $('#compare_img').attr("src","http://127.0.0.1:8000/media/images/lowresolution/cropped.jpg");
+      $('#compare_img').css("display","inline-block");
+      $('#downloadcrop').css("display","block");
+      var images = document.getElementById('result_img');
+      images.scrollIntoView({behavior: "smooth"})
+    }
   });
 }
