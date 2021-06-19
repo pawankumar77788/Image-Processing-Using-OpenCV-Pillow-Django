@@ -17,6 +17,17 @@ h2{
   display: none;
   cursor: all-scroll;
 }
+#resdiv{
+  position: relative;
+  top: -25px;
+  left: 3px;
+}
+#res{
+  background-color: #000000;
+  color: yellow;
+  border-radius: 10px;
+  padding: 2px 5px;
+}
 #original_width, img, #myCanvas{
   display: none;
   vertical-align: middle;
@@ -25,9 +36,27 @@ h2{
   transform: rotate(90deg);
 }
 #original_height{
-  width: 1060px;
+  width: 1210px;
 }
 #original_height,#original_width{
   /*margin: 0;*/
   text-align: center;
+}
+#tail {
+  position: absolute;
+  float: left;
+  display:none;
+  height: 250px;
+  box-shadow: 0 0 2px #fff, 0 0 10px #fff, 0 0 20px #0ba9ca, 0 0 30px #0ba9ca,
+  0 0 40px #0ba9ca, 0 0 50px #0ba9ca;
+}
+#divContainer, #divResize { 
+  border:dashed 1px #CCC; 
+  width:120px; 
+  height:120px; 
+  padding:5px; 
+  margin:5px; 
+  font:13px Arial; 
+  cursor:move; 
+  float:left 
 }
