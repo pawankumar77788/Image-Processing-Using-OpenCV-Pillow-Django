@@ -9,7 +9,7 @@ var mycan = document.getElementById('myCanvas');
 var mycancopy = document.getElementById('myCanvasCopy');
 var con = document.getElementById('contour');
 
-x_cor = (output.top - 8)*(img.naturalHeight/img.height)
+x_cor = (output.top - 64)*(img.naturalHeight/img.height)
 y_cor = (output.left - 8)*(img.naturalWidth/img.width)
 
 img.onload = function(){
@@ -37,7 +37,8 @@ var contour_element = document.getElementById('contour');
 contour_element.ondrag = function(){
   //console.log("moved");
   var output = $("#contour").position();
-  x_cor = (output.top - 8)*(img.naturalHeight/img.height)
+  // console.log(output);
+  x_cor = (output.top - 64)*(img.naturalHeight/img.height)
   y_cor = (output.left - 8)*(img.naturalWidth/img.width)
   // document.getElementById('outputposition').innerHTML = String((output.top - 8)*(img.naturalHeight/500)) + " , " + String((output.left - 8)*(img.naturalWidth/1000));
   let src = cv.imread(imgElement);
@@ -50,7 +51,7 @@ contour_element.ondrag = function(){
   let dst = new cv.Mat();
   // You can try more different parameters
   // let rect = new cv.Rect((output.left - 8)*(img.naturalWidth/img.width), (output.top - 8)*(img.naturalHeight/img.height), mycan.width, mycan.height);
-  let rect = new cv.Rect((output.left - 8)*(img.naturalWidth/img.width), (output.top - 8)*(img.naturalHeight/img.height), Math.ceil((parseInt(contour_element.style.width.slice(0,-2))/img.width)*img.naturalWidth), Math.ceil((parseInt(contour_element.style.height.slice(0,-2))/img.height)*img.naturalHeight));
+  let rect = new cv.Rect((output.left - 8)*(img.naturalWidth/img.width), (output.top - 64)*(img.naturalHeight/img.height), Math.ceil((parseInt(contour_element.style.width.slice(0,-2))/img.width)*img.naturalWidth), Math.ceil((parseInt(contour_element.style.height.slice(0,-2))/img.height)*img.naturalHeight));
   dst = src.roi(rect);
   cv.imshow('myCanvas', dst);
   mycan.style.display = "none";
@@ -97,7 +98,7 @@ contour_element.onresize = function(){
   //console.log("moved");
   // console.log(parseInt(contour_element.style.width.slice(0,-2)));
   var output = $("#contour").position();
-  x_cor = (output.top - 8)*(img.naturalHeight/img.height)
+  x_cor = (output.top - 64)*(img.naturalHeight/img.height)
   y_cor = (output.left - 8)*(img.naturalWidth/img.width)
   // document.getElementById('outputposition').innerHTML = String((output.top - 8)*(img.naturalHeight/500)) + " , " + String((output.left - 8)*(img.naturalWidth/1000));
   let src = cv.imread(imgElement);
@@ -109,7 +110,7 @@ contour_element.onresize = function(){
   //             'image type: ' + src.type() + '\n');
   let dst = new cv.Mat();
   // You can try more different parameters
-  let rect = new cv.Rect((output.left - 8)*(img.naturalWidth/img.width), (output.top - 8)*(img.naturalHeight/img.height),  Math.ceil((parseInt(contour_element.style.width.slice(0,-2))/img.width)*img.naturalWidth), Math.ceil((parseInt(contour_element.style.height.slice(0,-2))/img.height)*img.naturalHeight));
+  let rect = new cv.Rect((output.left - 8)*(img.naturalWidth/img.width), (output.top - 64)*(img.naturalHeight/img.height),  Math.ceil((parseInt(contour_element.style.width.slice(0,-2))/img.width)*img.naturalWidth), Math.ceil((parseInt(contour_element.style.height.slice(0,-2))/img.height)*img.naturalHeight));
   dst = src.roi(rect);
   // console.log(dst,src)
   cv.imshow('myCanvas', dst);
@@ -216,7 +217,7 @@ function function1(){
       // Show image container
       $("#ajax_status").text("Processing - Approx 30 Sec to render ...");
       var complete = document.getElementById('ajax_status');
-      complete.scrollIntoView({behavior: "smooth"})
+      complete.scrollIntoView({behavior: "smooth"});
     },
     complete:function(data){
       // Hide image container_taken
@@ -228,7 +229,11 @@ function function1(){
       $('#compare_img').css("display","inline-block");
       $('#downloadcrop').css("display","block");
       var images = document.getElementById('result_img');
-      images.scrollIntoView({behavior: "smooth"})
+      images.scrollIntoView({behavior: "smooth"});
+      var reimg = document.getElementById('compr');
+      var coimg = document.getElementById('compi');
+      reimg.innerHTML = "Original Width :"+document.getElementById('result_img').naturalWidth.toString()+"<br>Original Height :"+document.getElementById('result_img').naturalHeight.toString()+"<br>better quality<br>low compression<br>upscale does not effect"; 
+      coimg.innerHTML = "Original Width :"+document.getElementById('compare_img').naturalWidth.toString()+"<br>Original Height :"+document.getElementById('compare_img').naturalHeight.toString()+"<br>poor quality<br>high compression<br>upscale leads to blurring";
     }
   });
 }

@@ -11,18 +11,34 @@
     <script src="{% static 'js/jquery-ui.min.js' %}"></script>
     <script src="{% static 'js/jquery-ui.js' %}"></script>
 </head>
-<body>
+<body style="background-image: url({% static 'images/bg.jpg' %});">
+    <div class="header">
+        <h1 class="headers" id="mainhead">Imagictool</h1>
+        <h4 class="headers" id="subhead">Crop &bull; Resize &bull; Upscale</h4>
+    </div>
       <div id="contour">
         </div>
         <div id="tail"><canvas id="myCanvas" width="150" height="150" ></canvas><canvas id="myCanvasCopy" width="150" height="150" ></canvas><div id="resdiv"><span id="res">150 X 150</span></div></div>
       <img id="img_copy" alt="No Image" />
-      <img id="img_element" width="1200" height="500" alt="No Image" />
+      <img id="img_element" width="1220" height="500" alt="No Image" />
       <p id="original_width"></p>
       <p id="original_height"></p>
-    <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
+    <div class="caption">Select the Image File: &nbsp;<input type="file" id="fileInput" name="file" /></div>
     <button onclick="function1()">Crop and Upscale</button>
     <div id="ajax_status"></div>
-    <img id="result_img" width="540" height="540"><img id="compare_img" width="540" height="540"><canvas id="downloadfile"></canvas>
+    <div class="img__wrap">
+      <img id="result_img" width="540" height="540"><!-- img__img -->
+      <div class="img__description_layer">
+        <p class="img__description" id="compr"></p>
+      </div>
+    </div>
+    <div class="img__wrap">
+      <img id="compare_img" width="540" height="540"><!-- img__img -->
+      <div class="img__description_layer">
+        <p class="img__description" id="compi"></p>
+      </div>
+    </div>
+    <canvas id="downloadfile"></canvas>
     <button id="downloadcrop" onclick="function2()">Download</button>
     <script src="{% static 'js/script.js' %}"></script>
     <script async src="{% static 'js/opencv.js' %}" type="text/javascript"></script>
